@@ -1,455 +1,317 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="scroll-smooth">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Людмила — нутрициолог</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    color: #2b2b2b;
-    line-height: 1.6;
-    background: #faf8f5;
-  }
-  .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-
-  /* ХЕДЕР */
-  header {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(250,248,245,0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid #eee5da;
-  }
-  .nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 16px 0;
-  }
-  .logo { font-weight: 600; font-size: 18px; color: #4a6b52; }
-  .nav-links { display: flex; gap: 22px; }
-  .nav-links a {
-    text-decoration: none; color: #555; font-size: 15px;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: #4a6b52; }
-  @media (max-width: 700px) { .nav-links { display: none; } }
-
-  /* ГЛАВНАЯ */
-  .hero {
-    padding: 80px 0 60px;
-    display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
-  }
-  @media (max-width: 700px) { .hero { grid-template-columns: 1fr; padding: 50px 0 40px; } }
-  .hero h1 { font-size: 40px; line-height: 1.2; margin-bottom: 18px; color: #2f4a36; }
-  .hero p { font-size: 18px; color: #666; margin-bottom: 28px; }
-  @media (max-width: 700px) { .hero h1 { font-size: 30px; } }
-  .hero-photo {
-    width: 100%; aspect-ratio: 1/1; border-radius: 20px;
-    background: #e8ede6;
-    display: flex; align-items: center; justify-content: center;
-    color: #8aa08c; font-size: 15px; text-align: center; padding: 20px;
-  }
-
-  /* КНОПКИ */
-  .btn {
-    display: inline-block; padding: 14px 28px;
-    background: #4a6b52; color: #fff; text-decoration: none;
-    border-radius: 10px; font-size: 16px; font-weight: 500;
-    border: none; cursor: pointer; transition: background .2s;
-    font-family: inherit;
-  }
-  .btn:hover { background: #3c5742; }
-  .btn-outline {
-    background: transparent; color: #4a6b52;
-    border: 2px solid #4a6b52;
-  }
-  .btn-outline:hover { background: #4a6b52; color: #fff; }
-
-  /* СЕКЦИИ */
-  section { padding: 60px 0; }
-  section h2 {
-    font-size: 30px; margin-bottom: 24px; color: #2f4a36;
-    text-align: center;
-  }
-  .section-sub { text-align: center; color: #777; margin-bottom: 40px; }
-
-  /* ОБО МНЕ */
-  #about { background: #fff; }
-  .about-text { max-width: 720px; margin: 0 auto; font-size: 17px; color: #555; }
-  .about-text p { margin-bottom: 14px; }
-
-  /* С ЧЕМ РАБОТАЮ */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-  .card {
-    background: #fff; padding: 26px; border-radius: 14px;
-    border: 1px solid #eee5da;
-  }
-  .card h3 { font-size: 18px; margin-bottom: 8px; color: #3c5742; }
-  .card p { font-size: 15px; color: #666; }
-
-  /* ФОРМАТЫ */
-  #formats { background: #fff; }
-  .formats-list { max-width: 720px; margin: 0 auto; }
-  .format-item {
-    padding: 20px 0; border-bottom: 1px solid #eee5da;
-    display: flex; justify-content: space-between; gap: 20px; align-items: baseline;
-  }
-  .format-item:last-child { border-bottom: none; }
-  .format-item h3 { font-size: 18px; color: #3c5742; margin-bottom: 6px; }
-  .format-item p { font-size: 15px; color: #666; }
-  @media (max-width: 600px) { .format-item { flex-direction: column; } }
-
-  /* ОТЗЫВЫ */
-  .reviews { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-  .review {
-    background: #fff; padding: 24px; border-radius: 14px;
-    border: 1px solid #eee5da; font-size: 15px; color: #555;
-  }
-  .review-author { margin-top: 14px; font-weight: 600; color: #3c5742; font-size: 14px; }
-
-  /* МАТЕРИАЛЫ */
-  #materials { background: #fff; }
-  .materials-list { max-width: 720px; margin: 0 auto; }
-  .material-item {
-    padding: 18px 0; border-bottom: 1px solid #eee5da;
-    display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  }
-  .material-item:last-child { border-bottom: none; }
-  .material-item a { color: #4a6b52; text-decoration: none; font-size: 16px; }
-  .material-item a:hover { text-decoration: underline; }
-  .material-date { color: #999; font-size: 14px; }
-
-  /* КОНТАКТЫ */
-  .contact-wrap { max-width: 560px; margin: 0 auto; }
-  .contact-buttons { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 36px; }
-
-  /* ФОРМА */
-  .form-field { margin-bottom: 18px; }
-  .form-field label { display: block; font-size: 14px; color: #555; margin-bottom: 6px; }
-  .form-field input, .form-field textarea {
-    width: 100%; padding: 12px 14px; border: 1px solid #ddd5c9;
-    border-radius: 10px; font-size: 15px; font-family: inherit;
-    background: #fff; color: #2b2b2b;
-  }
-  .form-field input:focus, .form-field textarea:focus {
-    outline: none; border-color: #4a6b52;
-  }
-
-  /* ГАЛОЧКИ */
-  .checkboxes { margin: 22px 0; }
-  .checkbox-row {
-    display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;
-    font-size: 14px; color: #555;
-  }
-  .checkbox-row input[type="checkbox"] {
-    margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0;
-    accent-color: #4a6b52; cursor: pointer;
-  }
-  .checkbox-row a { color: #4a6b52; }
-
-  .form-note { font-size: 13px; color: #999; margin-top: 14px; text-align: center; }
-
-  /* ФУТЕР */
-  footer {
-    background: #2f4a36; color: #cdd8cf; padding: 30px 0;
-    font-size: 14px; text-align: center;
-  }
-  footer a { color: #cdd8cf; }
-
-  /* МОДАЛКА ПОЛИТИКИ */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.55); z-index: 1000;
-    align-items: center; justify-content: center; padding: 20px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: #fff; border-radius: 16px; max-width: 700px;
-    width: 100%; max-height: 85vh; overflow-y: auto; padding: 32px;
-    position: relative;
-  }
-  .modal h2 { font-size: 22px; margin-bottom: 18px; text-align: left; }
-  .modal h3 { font-size: 16px; margin: 18px 0 8px; color: #3c5742; }
-  .modal p { font-size: 14px; color: #555; margin-bottom: 10px; }
-  .modal-close {
-    position: absolute; top: 16px; right: 20px;
-    background: none; border: none; font-size: 26px; cursor: pointer;
-    color: #999; line-height: 1;
-  }
-  .modal-close:hover { color: #333; }
-
-  /* ВСПОМОГАТЕЛЬНОЕ */
-  .center { text-align: center; }
-  .mt-20 { margin-top: 20px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Людмила — нутрициолог</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        leaf: { 50: '#f3f7f3', 100: '#e3ede3', 200: '#c7dbc8', 300: '#9dbf9f', 400: '#6f9c73', 500: '#4a6b52', 600: '#3c5742', 700: '#2f4a36', 800: '#253a2b', 900: '#1c2d21' },
+                        sand: { 50: '#faf8f5', 100: '#f3ede4', 200: '#e8ddcc', 300: '#d9c7a8' }
+                    },
+                    fontFamily: { display: ['"Manrope"', 'sans-serif'], body: ['"Manrope"', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Manrope', sans-serif; }
+        html { scroll-behavior: smooth; }
+        .soft-shadow { box-shadow: 0 10px 40px -12px rgba(47, 74, 54, 0.15); }
+    </style>
 </head>
-<body>
 
-<header>
-  <div class="container nav">
-    <div class="logo">Людмила · нутрициолог</div>
-    <nav class="nav-links">
-      <a href="#about">Обо мне</a>
-      <a href="#work">С чем работаю</a>
-      <a href="#formats">Форматы</a>
-      <a href="#reviews">Отзывы</a>
-      <a href="#materials">Материалы</a>
-      <a href="#contacts">Контакты</a>
-    </nav>
-  </div>
-</header>
+<body class="bg-sand-50 text-leaf-900 antialiased">
 
-<!-- ГЛАВНАЯ -->
-<section class="hero container">
-  <div>
-    <h1>Помогаю наладить питание без запретов и давления</h1>
-    <p>Работаю с ЖКТ, снижением веса, дефицитами и женским здоровьем. Объясняю причину, а не просто даю рекомендации.</p>
-    <a href="#contacts" class="btn">Записаться</a>
-  </div>
-  <div class="hero-photo">Здесь будет ваше фото</div>
-</section>
-
-<!-- ОБО МНЕ -->
-<section id="about">
-  <div class="container">
-    <h2>Обо мне</h2>
-    <div class="about-text">
-      <p>Меня зовут Людмила, я нутрициолог. Помогаю людям выстроить питание так, чтобы оно поддерживало здоровье, а не превращалось в постоянный стресс и запреты.</p>
-      <p>В работе опираюсь на индивидуальный подход: сначала разбираемся в причине, потом подбираем питание и режим. Без жёстких диет и запугивания.</p>
-      <p>Образование, опыт и подход — распишите здесь подробнее под себя.</p>
-    </div>
-  </div>
-</section>
-
-<!-- С ЧЕМ РАБОТАЮ -->
-<section id="work">
-  <div class="container">
-    <h2>С чем работаю</h2>
-    <p class="section-sub">Основные направления</p>
-    <div class="cards">
-      <div class="card">
-        <h3>Снижение веса</h3>
-        <p>Мягкое снижение веса без жёстких диет и срывов, с учётом образа жизни.</p>
-      </div>
-      <div class="card">
-        <h3>ЖКТ</h3>
-        <p>Работа с пищеварением, вздутием, тяжестью, нарушениями стула.</p>
-      </div>
-      <div class="card">
-        <h3>Дефициты</h3>
-        <p>Поддержка при дефицитах витаминов и минералов, восстановление энергии.</p>
-      </div>
-      <div class="card">
-        <h3>Женское здоровье</h3>
-        <p>Питание при женских заболеваниях, поддержка цикла и самочувствия.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ФОРМАТЫ -->
-<section id="formats">
-  <div class="container">
-    <h2>Форматы работы</h2>
-    <div class="formats-list">
-      <div class="format-item">
-        <div>
-          <h3>Консультация</h3>
-          <p>Разовая встреча — разбор ситуации и рекомендации.</p>
+    <!-- ХЕДЕР -->
+    <header class="sticky top-0 z-40 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="font-semibold text-leaf-700">Людмила · нутрициолог</div>
+            <nav class="hidden md:flex gap-6 text-sm text-leaf-600">
+                <a href="#about" class="hover:text-leaf-800 transition">Обо мне</a>
+                <a href="#work" class="hover:text-leaf-800 transition">С чем работаю</a>
+                <a href="#formats" class="hover:text-leaf-800 transition">Форматы</a>
+                <a href="#reviews" class="hover:text-leaf-800 transition">Отзывы</a>
+                <a href="#materials" class="hover:text-leaf-800 transition">Материалы</a>
+                <a href="#contacts" class="hover:text-leaf-800 transition">Контакты</a>
+            </nav>
         </div>
-      </div>
-      <div class="format-item">
+    </header>
+
+    <!-- ГЛАВНАЯ -->
+    <section class="max-w-5xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <h3>Сопровождение</h3>
-          <p>Длительная работа с поддержкой и корректировками по ходу.</p>
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight text-leaf-800 mb-6">
+                Помогаю наладить питание без запретов и давления
+            </h1>
+            <p class="text-lg text-leaf-600 mb-8">
+                Работаю с ЖКТ, снижением веса, дефицитами и женским здоровьем. Объясняю причину, а не просто даю рекомендации.
+            </p>
+            <a href="#contacts" class="inline-block bg-leaf-500 hover:bg-leaf-600 text-white px-8 py-3.5 rounded-xl font-medium transition">Записаться</a>
         </div>
-      </div>
-      <div class="format-item">
-        <div>
-          <h3>Марафоны</h3>
-          <p>Групповые программы по питанию и образу жизни.</p>
+        <div class="aspect-square rounded-3xl bg-leaf-100 flex items-center justify-center text-leaf-400 text-sm p-6 text-center soft-shadow">
+            Здесь будет ваше фото
         </div>
-      </div>
+    </section>
+
+    <!-- ОБО МНЕ -->
+    <section id="about" class="bg-white py-16 md:py-20">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-leaf-800 mb-8 text-center">Обо мне</h2>
+            <div class="text-leaf-600 text-lg space-y-4">
+                <p>Меня зовут Людмила, я нутрициолог. Помогаю людям выстроить питание так, чтобы оно поддерживало здоровье, а не превращалось в постоянный стресс и запреты.</p>
+                <p>В работе опираюсь на индивидуальный подход: сначала разбираемся в причине, потом подбираем питание и режим. Без жёстких диет и запугивания.</p>
+                <p class="text-leaf-400 text-base">Образование, опыт и подход — распишите здесь подробнее под себя.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- С ЧЕМ РАБОТАЮ -->
+    <section id="work" class="py-16 md:py-20">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-leaf-800 mb-4 text-center">С чем работаю</h2>
+            <p class="text-center text-leaf-500 mb-12">Основные направления</p>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white p-6 rounded-2xl border border-sand-200 soft-shadow">
+                    <h3 class="font-semibold text-leaf-700 mb-2">Снижение веса</h3>
+                    <p class="text-sm text-leaf-500">Мягкое снижение веса без жёстких диет и срывов, с учётом образа жизни.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-sand-200 soft-shadow">
+                    <h3 class="font-semibold text-leaf-700 mb-2">ЖКТ</h3>
+                    <p class="text-sm text-leaf-500">Работа с пищеварением, вздутием, тяжестью, нарушениями стула.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-sand-200 soft-shadow">
+                    <h3 class="font-semibold text-leaf-700 mb-2">Дефициты</h3>
+                    <p class="text-sm text-leaf-500">Поддержка при дефицитах витаминов и минералов, восстановление энергии.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-sand-200 soft-shadow">
+                    <h3 class="font-semibold text-leaf-700 mb-2">Женское здоровье</h3>
+                    <p class="text-sm text-leaf-500">Питание при женских заболеваниях, поддержка цикла и самочувствия.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФОРМАТЫ -->
+    <section id="formats" class="bg-white py-16 md:py-20">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-leaf-800 mb-10 text-center">Форматы работы</h2>
+            <div class="divide-y divide-sand-200">
+                <div class="py-5">
+                    <h3 class="font-semibold text-leaf-700 mb-1">Консультация</h3>
+                    <p class="text-leaf-500 text-sm">Разовая встреча — разбор ситуации и рекомендации.</p>
+                </div>
+                <div class="py-5">
+                    <h3 class="font-semibold text-leaf-700 mb-1">Сопровождение</h3>
+                    <p class="text-leaf-500 text-sm">Длительная работа с поддержкой и корректировками по ходу.</p>
+                </div>
+                <div class="py-5">
+                    <h3 class="font-semibold text-leaf-700 mb-1">Марафоны</h3>
+                    <p class="text-leaf-500 text-sm">Групповые программы по питанию и образу жизни.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ОТЗЫВЫ -->
+    <section id="reviews" class="py-16 md:py-20">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-leaf-800 mb-4 text-center">Отзывы</h2>
+            <p class="text-center text-leaf-500 mb-12">Здесь будут отзывы ваших клиентов</p>
+            <div class="grid md:grid-cols-3 gap-5">
+                <div class="bg-white p-6 rounded-2xl border border-sand-200 soft-shadow">
+                    <p class="text-leaf-600 text-sm">Текст отзыва клиента. Расскажите о результате и впечатлениях от работы.</p>
+                    <div class="mt-4 font-semibold text-leaf-700 text-sm">— Имя клиента</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-sand-200 soft-shadow">
+                    <p class="text-leaf-600 text-sm">Текст отзыва клиента. Расскажите о результате и впечатлениях от работы.</p>
+                    <div class="mt-4 font-semibold text-leaf-700 text-sm">— Имя клиента</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-sand-200 soft-shadow">
+                    <p class="text-leaf-600 text-sm">Текст отзыва клиента. Расскажите о результате и впечатлениях от работы.</p>
+                    <div class="mt-4 font-semibold text-leaf-700 text-sm">— Имя клиента</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- МАТЕРИАЛЫ -->
+    <section id="materials" class="bg-white py-16 md:py-20">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-leaf-800 mb-4 text-center">Материалы</h2>
+            <p class="text-center text-leaf-500 mb-10">Статьи и полезные заметки</p>
+            <div class="divide-y divide-sand-200">
+                <div class="py-4 flex justify-between items-center gap-4">
+                    <a href="#" class="text-leaf-600 hover:text-leaf-800 transition">Заголовок статьи или заметки</a>
+                    <span class="text-leaf-400 text-sm">дата</span>
+                </div>
+                <div class="py-4 flex justify-between items-center gap-4">
+                    <a href="#" class="text-leaf-600 hover:text-leaf-800 transition">Заголовок статьи или заметки</a>
+                    <span class="text-leaf-400 text-sm">дата</span>
+                </div>
+                <div class="py-4 flex justify-between items-center gap-4">
+                    <a href="#" class="text-leaf-600 hover:text-leaf-800 transition">Заголовок статьи или заметки</a>
+                    <span class="text-leaf-400 text-sm">дата</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КОНТАКТЫ -->
+    <section id="contacts" class="py-16 md:py-20">
+        <div class="max-w-xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-leaf-800 mb-4 text-center">Записаться</h2>
+            <p class="text-center text-leaf-500 mb-10">Оставьте заявку или напишите напрямую</p>
+
+            <!-- ССЫЛКИ НА МЕССЕНДЖЕРЫ — ПОКА ТОЛЬКО TELEGRAM С ЗАГЛУШКОЙ -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <!-- ЗАМЕНИТЬ: href="https://t.me/ЕЁ_USERNAME" -->
+                <a href="https://t.me/" target="_blank" rel="noopener" class="bg-leaf-500 hover:bg-leaf-600 text-white px-6 py-3 rounded-xl font-medium transition">Написать в Telegram</a>
+            </div>
+
+            <form id="contactForm" class="space-y-5" onsubmit="return sendToTelegram(event)">
+                <div>
+                    <label for="name" class="block text-sm text-leaf-600 mb-1.5">Ваше имя</label>
+                    <input type="text" id="name" required class="w-full px-4 py-3 rounded-xl border border-sand-200 bg-white focus:outline-none focus:border-leaf-500 transition">
+                </div>
+                <div>
+                    <label for="phone" class="block text-sm text-leaf-600 mb-1.5">Телефон или контакт для связи</label>
+                    <input type="text" id="phone" required class="w-full px-4 py-3 rounded-xl border border-sand-200 bg-white focus:outline-none focus:border-leaf-500 transition">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm text-leaf-600 mb-1.5">Коротко о запросе</label>
+                    <textarea id="message" rows="3" class="w-full px-4 py-3 rounded-xl border border-sand-200 bg-white focus:outline-none focus:border-leaf-500 transition"></textarea>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <label class="flex items-start gap-3 text-sm text-leaf-600 cursor-pointer">
+                        <input type="checkbox" id="policy" required class="mt-0.5 w-5 h-5 accent-leaf-500 flex-shrink-0">
+                        <span>Согласен(-на) с <a href="#" onclick="openPolicy(event)" class="underline text-leaf-700">политикой конфиденциальности</a></span>
+                    </label>
+                    <label class="flex items-start gap-3 text-sm text-leaf-600 cursor-pointer">
+                        <input type="checkbox" id="data" required class="mt-0.5 w-5 h-5 accent-leaf-500 flex-shrink-0">
+                        <span>Согласен(-на) на обработку персональных данных</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full bg-leaf-500 hover:bg-leaf-600 text-white py-3.5 rounded-xl font-medium transition">Отправить заявку</button>
+                <p class="text-xs text-leaf-400 text-center">Заявка придёт в Telegram.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- ФУТЕР -->
+    <footer class="bg-leaf-800 text-leaf-100 py-8 text-center text-sm">
+        <p>© <span id="year"></span> Людмила · нутрициолог</p>
+        <p class="mt-2"><a href="#" onclick="openPolicy(event)" class="underline">Политика конфиденциальности</a></p>
+    </footer>
+
+    <!-- МОДАЛКА ПОЛИТИКИ -->
+    <div id="policyModal" class="hidden fixed inset-0 z-50 bg-black/50 items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-8 relative">
+            <button onclick="closePolicy()" class="absolute top-4 right-5 text-3xl text-leaf-400 hover:text-leaf-700 leading-none">&times;</button>
+            <h2 class="text-2xl font-bold text-leaf-800 mb-4">Политика конфиденциальности</h2>
+            <div class="text-leaf-600 text-sm space-y-3">
+                <h3 class="font-semibold text-leaf-700 pt-2">1. Общие положения</h3>
+                <p>Настоящая политика конфиденциальности описывает порядок обработки и защиты персональных данных пользователей сайта.</p>
+                <h3 class="font-semibold text-leaf-700 pt-2">2. Какие данные собираются</h3>
+                <p>При заполнении формы обратной связи могут собираться: имя, контакт для связи (телефон, e-mail, мессенджер), а также текст сообщения, который пользователь оставляет добровольно.</p>
+                <h3 class="font-semibold text-leaf-700 pt-2">3. Цели обработки данных</h3>
+                <p>Персональные данные используются исключительно для связи с пользователем по его запросу и организации консультации. Данные не передаются третьим лицам.</p>
+                <h3 class="font-semibold text-leaf-700 pt-2">4. Согласие на обработку</h3>
+                <p>Отправляя форму, пользователь подтверждает согласие на обработку персональных данных в указанных целях.</p>
+                <h3 class="font-semibold text-leaf-700 pt-2">5. Хранение и защита</h3>
+                <p>Данные хранятся не дольше, чем это необходимо для связи с пользователем. Применяются разумные меры защиты от несанкционированного доступа.</p>
+                <h3 class="font-semibold text-leaf-700 pt-2">6. Права пользователя</h3>
+                <p>Пользователь вправе запросить удаление своих данных, направив обращение через контактные данные, указанные на сайте.</p>
+                <h3 class="font-semibold text-leaf-700 pt-2">7. Изменения</h3>
+                <p>Политика может обновляться. Актуальная версия всегда размещена на этой странице.</p>
+                <p class="text-leaf-400 pt-4">Дата последнего обновления: [укажите дату]</p>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- ОТЗЫВЫ -->
-<section id="reviews">
-  <div class="container">
-    <h2>Отзывы</h2>
-    <p class="section-sub">Здесь будут отзывы ваших клиентов</p>
-    <div class="reviews">
-      <div class="review">
-        <p>Текст отзыва клиента. Расскажите о результате и впечатлениях от работы.</p>
-        <div class="review-author">— Имя клиента</div>
-      </div>
-      <div class="review">
-        <p>Текст отзыва клиента. Расскажите о результате и впечатлениях от работы.</p>
-        <div class="review-author">— Имя клиента</div>
-      </div>
-      <div class="review">
-        <p>Текст отзыва клиента. Расскажите о результате и впечатлениях от работы.</p>
-        <div class="review-author">— Имя клиента</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <script>
+        // Год
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-<!-- МАТЕРИАЛЫ -->
-<section id="materials">
-  <div class="container">
-    <h2>Материалы</h2>
-    <p class="section-sub">Статьи и полезные заметки</p>
-    <div class="materials-list">
-      <div class="material-item">
-        <a href="#">Заголовок статьи или заметки</a>
-        <span class="material-date">дата</span>
-      </div>
-      <div class="material-item">
-        <a href="#">Заголовок статьи или заметки</a>
-        <span class="material-date">дата</span>
-      </div>
-      <div class="material-item">
-        <a href="#">Заголовок статьи или заметки</a>
-        <span class="material-date">дата</span>
-      </div>
-    </div>
-  </div>
-</section>
+        // === НАСТРОЙКИ TELEGRAM — ВСТАВЬТЕ СВОИ ЗНАЧЕНИЯ ===
+        const TELEGRAM_BOT_TOKEN = 'СЮДА_ТОКЕН_ТВОЕГО_БОТА';
+        const TELEGRAM_CHAT_ID = 'СЮДА_ТВОЙ_CHAT_ID';
 
-<!-- КОНТАКТЫ -->
-<section id="contacts">
-  <div class="container contact-wrap">
-    <h2>Записаться</h2>
-    <p class="section-sub">Оставьте заявку или напишите напрямую</p>
+        // Политика
+        function openPolicy(e) {
+            if (e) e.preventDefault();
+            const m = document.getElementById('policyModal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePolicy() {
+            const m = document.getElementById('policyModal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('policyModal').addEventListener('click', function (e) {
+            if (e.target === this) closePolicy();
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePolicy(); });
 
-    <div class="contact-buttons">
-      <a href="https://t.me/" class="btn" target="_blank" rel="noopener">Telegram</a>
-      <a href="https://wa.me/" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp</a>
-    </div>
+        // Отправка в Telegram
+        function sendToTelegram(e) {
+            e.preventDefault();
 
-    <form id="contactForm" onsubmit="return handleSubmit(event)">
-      <div class="form-field">
-        <label for="name">Ваше имя</label>
-        <input type="text" id="name" name="name" required>
-      </div>
-      <div class="form-field">
-        <label for="phone">Телефон или контакт для связи</label>
-        <input type="text" id="phone" name="phone" required>
-      </div>
-      <div class="form-field">
-        <label for="message">Коротко о запросе</label>
-        <textarea id="message" name="message" rows="3"></textarea>
-      </div>
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const policy = document.getElementById('policy').checked;
+            const data = document.getElementById('data').checked;
 
-      <div class="checkboxes">
-        <label class="checkbox-row">
-          <input type="checkbox" id="policy" required>
-          <span>Согласен(-на) с <a href="#" onclick="openPolicy(event)">политикой конфиденциальности</a></span>
-        </label>
-        <label class="checkbox-row">
-          <input type="checkbox" id="data" required>
-          <span>Согласен(-на) на обработку персональных данных</span>
-        </label>
-      </div>
+            if (!policy || !data) {
+                alert('Пожалуйста, подтвердите оба согласия.');
+                return false;
+            }
+            if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID || TELEGRAM_BOT_TOKEN.indexOf('СЮДА') === 0) {
+                alert('Форма ещё не настроена: нужен токен бота и chat_id.');
+                return false;
+            }
 
-      <button type="submit" class="btn" style="width:100%;">Отправить заявку</button>
-      <p class="form-note">Форма работает через ваш почтовый сервис или мессенджер — настройте приём заявок.</p>
-    </form>
-  </div>
-</section>
+            const text =
+                'Новая заявка\n' +
+                'Имя: ' + name + '\n' +
+                'Контакт: ' + phone + '\n' +
+                'Описание: ' + (message || '—');
 
-<footer>
-  <div class="container">
-    <p>© <span id="year"></span> Людмила · нутрициолог</p>
-    <p style="margin-top:8px;"><a href="#" onclick="openPolicy(event)">Политика конфиденциальности</a></p>
-  </div>
-</footer>
+            const url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
 
-<!-- МОДАЛКА ПОЛИТИКИ -->
-<div class="modal-overlay" id="policyModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closePolicy()">&times;</button>
-    <h2>Политика конфиденциальности</h2>
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: text })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.ok) {
+                    alert('Спасибо, ' + name + '! Заявка отправлена.');
+                    document.getElementById('contactForm').reset();
+                } else {
+                    alert('Не удалось отправить. Попробуйте позже.');
+                }
+            })
+            .catch(() => {
+                alert('Ошибка сети. Попробуйте позже.');
+            });
 
-    <h3>1. Общие положения</h3>
-    <p>Настоящая политика конфиденциальности описывает порядок обработки и защиты персональных данных пользователей сайта.</p>
-
-    <h3>2. Какие данные собираются</h3>
-    <p>При заполнении формы обратной связи могут собираться: имя, контакт для связи (телефон, e-mail, мессенджер), а также текст сообщения, который пользователь оставляет добровольно.</p>
-
-    <h3>3. Цели обработки данных</h3>
-    <p>Персональные данные используются исключительно для связи с пользователем по его запросу и организации консультации. Данные не передаются третьим лицам.</p>
-
-    <h3>4. Согласие на обработку</h3>
-    <p>Отправляя форму, пользователь подтверждает согласие на обработку персональных данных в указанных целях.</p>
-
-    <h3>5. Хранение и защита</h3>
-    <p>Данные хранятся не дольше, чем это необходимо для связи с пользователем. Применяются разумные меры защиты от несанкционированного доступа.</p>
-
-    <h3>6. Права пользователя</h3>
-    <p>Пользователь вправе запросить удаление своих данных, направив обращение через контактные данные, указанные на сайте.</p>
-
-    <h3>7. Изменения</h3>
-    <p>Политика может обновляться. Актуальная версия всегда размещена на этой странице.</p>
-
-    <p style="margin-top:20px; color:#999; font-size:13px;">Дата последнего обновления: [укажите дату]</p>
-  </div>
-</div>
-
-<script>
-  // Год в футере
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Политика — открыть/закрыть
-  function openPolicy(e) {
-    if (e) e.preventDefault();
-    document.getElementById('policyModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-  function closePolicy() {
-    document.getElementById('policyModal').classList.remove('active');
-    document.body.style.overflow = '';
-  }
-  document.getElementById('policyModal').addEventListener('click', function(e) {
-    if (e.target === this) closePolicy();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closePolicy();
-  });
-
-  // Отправка формы
-  function handleSubmit(e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const message = document.getElementById('message').value.trim();
-    const policy = document.getElementById('policy').checked;
-    const data = document.getElementById('data').checked;
-
-    if (!policy || !data) {
-      alert('Пожалуйста, подтвердите согласие с политикой и обработкой данных.');
-      return false;
-    }
-
-    // ЗАМЕНИТЕ на свой способ приёма заявок.
-    // Пример: открыть почтовый клиент
-    const subject = encodeURIComponent('Заявка с сайта от ' + name);
-    const body = encodeURIComponent(
-      'Имя: ' + name + '\n' +
-      'Контакт: ' + phone + '\n' +
-      'Сообщение: ' + message
-    );
-    // window.location.href = 'mailto:вашапочта@example.com?subject=' + subject + '&body=' + body;
-
-    // Пока — просто уведомление
-    alert('Спасибо, ' + name + '! Заявка отправлена. Я свяжусь с вами.');
-    document.getElementById('contactForm').reset();
-    return false;
-  }
-</script>
+            return false;
+        }
+    </script>
 
 </body>
 </html>
